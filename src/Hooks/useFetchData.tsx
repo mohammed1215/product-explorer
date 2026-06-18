@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import type { Category } from "../App";
 
 interface Product {
     id: number;
     title: string;
     price: number;
     description: string;
-    category: string;
+    category: Category;
     image: string;
     rating: {
         rate: number;
@@ -17,11 +18,11 @@ export const useProducts = (url: string) => {
     const [data, setData] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<null | string>(null);
-    const [categories, setCategories] = useState<string[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
 
     //function to get the categories of the products
-    function getCategories(data: Product[]): string[] {
-        const categoriesSet = new Set<string>();
+    function getCategories(data: Product[]): Category[] {
+        const categoriesSet = new Set<Category>();
         data.map((product) => {
             categoriesSet.add(product.category);
         });
