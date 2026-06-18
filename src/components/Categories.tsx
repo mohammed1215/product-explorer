@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { Category } from "../App";
 import type { Product } from "../Hooks/useFetchData";
 
@@ -6,13 +5,15 @@ export const Categories = ({
     products,
     categories,
     filteredProducts,
+    setActiveCategory,
+    activeCategory,
 }: {
     products: Product[];
     filteredProducts: Product[];
     categories: Category[];
+    setActiveCategory: React.Dispatch<React.SetStateAction<Category>>;
+    activeCategory: Category | "";
 }) => {
-    const [activeCategory, setActiveCategory] = useState<Category>();
-
     function handleFilteringWithCategory(category: Category) {
         setActiveCategory(category);
         if (category === "all") {

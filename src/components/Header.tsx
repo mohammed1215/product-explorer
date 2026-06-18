@@ -1,9 +1,12 @@
 import { useState } from "react";
 
-export const Header = ({ productCount }: { productCount: number }) => {
-    const [search, setSearch] = useState("");
-    const [isLoading, setIsLoading] = useState("");
-
+export const Header = ({
+    productCount,
+    setSearchQuery,
+}: {
+    productCount: number;
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+}) => {
     return (
         <header className="sticky top-0 z-10 border-b border-border bg-surface/95 backdrop-blur">
             <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -30,6 +33,7 @@ export const Header = ({ productCount }: { productCount: number }) => {
                     </svg>
                     <input
                         type="text"
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search products…"
                         className="w-full rounded-full border border-border bg-surface py-2.5 pl-9 pr-4 text-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
                     />
