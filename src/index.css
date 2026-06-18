@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+    /* Color tokens — cool paper gray + ink + a coral "sale tag" accent */
+    --color-bg: #f5f6f8;
+    --color-surface: #ffffff;
+    --color-ink: #15181d;
+    --color-muted: #6b7280;
+    --color-border: #e4e7ec;
+    --color-accent: #ff5a3c;
+    --color-accent-dark: #e14526;
+    --color-tag: #1f9d55;
+
+    /* Type tokens */
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+    body {
+        @apply bg-bg text-ink font-body antialiased;
+    }
+}
+
+/* Hide scrollbar on the mobile category-tab rail, keep it scrollable */
+.scroll-rail {
+    scrollbar-width: none;
+}
+.scroll-rail::-webkit-scrollbar {
+    display: none;
+}
+
+/* Clamp product titles to two lines without a plugin */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

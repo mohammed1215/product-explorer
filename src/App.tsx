@@ -1,0 +1,63 @@
+import { useState } from "react";
+import "./App.css";
+import { Header } from "./components/Header";
+import { useProducts } from "./Hooks/useFetchData";
+
+function App() {
+    const { data, error, isLoading, categories } = useProducts("welcome");
+    const [activeCategory, setActiveCategory] = useState<
+        "men's clothing" | "jewelery" | "electronics" | "women's clothing"
+    >();
+
+    let filteredProducts = data;
+
+    function handleFilteringWithCategory(category: string) {
+        if (category === "all") {
+            filteredProducts = data;
+        } else {
+            filteredProducts = data.filter((p) => p.category === category);
+        }
+
+        console.log(filteredProducts);
+    }
+
+    if (isLoading) {
+        return <div>Loading Page ...</div>;
+    }
+
+    return (
+        <div className="min-h-screen bg-bg">
+            <Header productCount={data?.length ?? 0} />
+
+            <main className="mx-auto max-w-6xl px-4 py-6">
+                <div className="mb-6">
+                    <div className="scroll-rail -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0">
+                        {categories.map((category) => {
+                            const isActive = category === activeCategory;
+                            // const label = category === ALL_CATEGORIES ? "All" : category;
+
+                            return (
+                                <button
+                                    key={category}
+                                    type="button"
+                                    onClick={() =>
+                                        handleFilteringWithCategory(category)
+                                    }
+                                    className={`shrink-0 cursor-pointer rounded-full border px-4 py-1.5 text-sm font-medium capitalize transition-colors ${
+                                        isActive
+                                            ? "border-ink bg-ink text-white"
+                                            : "border-border bg-surface text-muted hover:border-ink/30 hover:text-ink"
+                                    }`}
+                                >
+                                    {category}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+}
+
+export default App;
