@@ -34,8 +34,6 @@ function App() {
                 {/* Categories */}
                 <div className="mb-6">
                     <Categories
-                        products={data}
-                        filteredProducts={finalProducts}
                         categories={categories}
                         setActiveCategory={setActiveCategory}
                         activeCategory={activeCategory}

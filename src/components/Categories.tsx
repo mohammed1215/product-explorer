@@ -1,18 +1,13 @@
 import type { Category } from "../App";
-import type { Product } from "../Hooks/useProducts";
 import { Button } from "./Button";
 
 export const Categories = ({
-    products,
     categories,
-    filteredProducts,
     setActiveCategory,
     activeCategory,
 }: {
-    products: Product[];
-    filteredProducts: Product[];
     categories: Category[];
-    setActiveCategory: React.Dispatch<React.SetStateAction<Category>>;
+    setActiveCategory: React.Dispatch<React.SetStateAction<Category | "">>;
     activeCategory: Category | "";
 }) => {
     return (

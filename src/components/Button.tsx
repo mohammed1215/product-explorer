@@ -3,7 +3,7 @@ export const Button = ({
     className,
     onClick,
 }: {
-    children: any;
+    children: React.ReactNode;
     className: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
