@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Category } from "../App";
 
-interface Product {
+export interface Product {
     id: number;
     title: string;
     price: number;
