@@ -1,4 +1,4 @@
-import type { Product } from "../Hooks/useFetchData";
+import type { Product } from "../Hooks/useProducts";
 import { StarRating } from "./StarRating";
 
 export const ProductCard = ({ product }: { product: Product }) => {

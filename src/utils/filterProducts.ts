@@ -1,5 +1,5 @@
 import type { Category } from "../App";
-import type { Product } from "../Hooks/useFetchData";
+import type { Product } from "../Hooks/useProducts";
 
 export const filterProducts = (
     activeCategory: Category | "",

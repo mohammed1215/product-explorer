@@ -1,8 +1,8 @@
 import { Header } from "./components/Header";
-import { useProducts } from "./Hooks/useFetchData";
+import { useProducts } from "./Hooks/useProducts";
 import { Categories } from "./components/Categories";
 import { ProductsGrid } from "./components/ProductGrid";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import { filterProducts } from "./utils/filterProducts";
 import { ErrorState } from "./components/ErrorState";
@@ -14,17 +14,19 @@ export type Category =
     | "women's clothing"
     | "all";
 function App() {
-    const { data, error, isLoading, categories, RetryFetching } =
-        useProducts("welcome");
+    const { data, error, isLoading, categories, RetryFetching } = useProducts();
     const [searchQuery, setSearchQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState<Category | "">("all");
 
-    let finalProducts = filterProducts(activeCategory, searchQuery, data);
+    let finalProducts = useMemo(
+        () => filterProducts(activeCategory, searchQuery, data),
+        [activeCategory, searchQuery, data],
+    );
 
     return (
         <div className="min-h-screen bg-bg">
             <Header
-                productCount={data?.length ?? 0}
+                productCount={finalProducts?.length ?? 0}
                 setSearchQuery={setSearchQuery}
             />
 

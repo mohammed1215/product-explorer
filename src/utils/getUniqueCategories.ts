@@ -1,5 +1,5 @@
 import type { Category } from "../App";
-import type { Product } from "../Hooks/useFetchData";
+import type { Product } from "../Hooks/useProducts";
 
 //function to get the categories of the products
 export function getCategories(data: Product[]): Category[] {
@@ -9,5 +9,5 @@ export function getCategories(data: Product[]): Category[] {
     });
     console.log(categoriesSet);
     categoriesSet.add("all");
-    return Array.from(categoriesSet);
+    return Array.from(categoriesSet).sort();
 }

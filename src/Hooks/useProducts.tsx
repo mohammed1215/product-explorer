@@ -15,7 +15,7 @@ export interface Product {
     };
 }
 
-export const useProducts = (url: string) => {
+export const useProducts = () => {
     const [data, setData] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<null | string>(null);
@@ -23,8 +23,8 @@ export const useProducts = (url: string) => {
     const [retryTrigger, setRetryTrigger] = useState(0);
     useEffect(() => {
         async function FetchProducts() {
-            console.log({ url });
             try {
+                setIsLoading(true);
                 const res = await fetch("https://fakestoreapi.com/products");
                 const data: Product[] = await res.json();
 
@@ -32,8 +32,12 @@ export const useProducts = (url: string) => {
                 setError(null);
                 setCategories(getCategories(data));
             } catch (error) {
-                setError(error.message);
-                setData(null);
+                const message =
+                    error instanceof Error
+                        ? error.message
+                        : "An error has occured";
+                setError(message);
+                setData([]);
             } finally {
                 setIsLoading(false);
             }

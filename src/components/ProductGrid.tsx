@@ -1,4 +1,4 @@
-import type { Product } from "../Hooks/useFetchData";
+import type { Product } from "../Hooks/useProducts";
 import { ProductCard } from "./ProductCard";
 
 export const ProductsGrid = ({ products }: { products: Product[] }) => {
