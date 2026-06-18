@@ -15,7 +15,7 @@ function App() {
     const [activeCategory, setActiveCategory] = useState<Category | "">("");
 
     let filteredProducts =
-        activeCategory === ""
+        activeCategory === "" || activeCategory === "all"
             ? data
             : data.filter((p) => p.category === activeCategory);
     let searchedProducts =
