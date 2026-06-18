@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Category } from "../App";
+import { getCategories } from "../utils/getUniqueCategories";
 
 export interface Product {
     id: number;
@@ -19,18 +20,7 @@ export const useProducts = (url: string) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<null | string>(null);
     const [categories, setCategories] = useState<Category[]>([]);
-
-    //function to get the categories of the products
-    function getCategories(data: Product[]): Category[] {
-        const categoriesSet = new Set<Category>();
-        data.map((product) => {
-            categoriesSet.add(product.category);
-        });
-        console.log(categoriesSet);
-        categoriesSet.add("all");
-        return Array.from(categoriesSet);
-    }
-
+    const [retryTrigger, setRetryTrigger] = useState(0);
     useEffect(() => {
         async function FetchProducts() {
             console.log({ url });
@@ -39,6 +29,7 @@ export const useProducts = (url: string) => {
                 const data: Product[] = await res.json();
 
                 setData(data);
+                setError(null);
                 setCategories(getCategories(data));
             } catch (error) {
                 setError(error.message);
@@ -49,7 +40,11 @@ export const useProducts = (url: string) => {
         }
 
         FetchProducts();
-    }, []);
+    }, [retryTrigger]);
 
-    return { data, isLoading, error, categories, setData };
+    function RetryFetching() {
+        setRetryTrigger((prev) => prev + 1);
+    }
+
+    return { data, isLoading, error, categories, setData, RetryFetching };
 };

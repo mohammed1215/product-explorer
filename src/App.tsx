@@ -3,6 +3,10 @@ import { useProducts } from "./Hooks/useFetchData";
 import { Categories } from "./components/Categories";
 import { ProductsGrid } from "./components/ProductGrid";
 import { useState } from "react";
+import { LoadingSpinner } from "./components/LoadingSpinner";
+import { filterProducts } from "./utils/filterProducts";
+import { ErrorState } from "./components/ErrorState";
+import { EmptyState } from "./components/EmptyState";
 export type Category =
     | "men's clothing"
     | "jewelery"
@@ -10,26 +14,12 @@ export type Category =
     | "women's clothing"
     | "all";
 function App() {
-    const { data, error, isLoading, categories } = useProducts("welcome");
+    const { data, error, isLoading, categories, RetryFetching } =
+        useProducts("welcome");
     const [searchQuery, setSearchQuery] = useState("");
-    const [activeCategory, setActiveCategory] = useState<Category | "">("");
+    const [activeCategory, setActiveCategory] = useState<Category | "">("all");
 
-    let filteredProducts =
-        activeCategory === "" || activeCategory === "all"
-            ? data
-            : data.filter((p) => p.category === activeCategory);
-    let searchedProducts =
-        searchQuery === ""
-            ? filteredProducts
-            : filteredProducts.filter(
-                  (p) =>
-                      p.title
-                          .toLowerCase()
-                          .includes(searchQuery.toLowerCase()) ||
-                      p.description
-                          .toLowerCase()
-                          .includes(searchQuery.toLowerCase()),
-              );
+    let finalProducts = filterProducts(activeCategory, searchQuery, data);
 
     return (
         <div className="min-h-screen bg-bg">
@@ -38,12 +28,12 @@ function App() {
                 setSearchQuery={setSearchQuery}
             />
 
-            <main className="mx-auto max-w-6xl px-4 py-6">
+            <main className="mx-auto max-w-6xl px-4 py-6 min-h-[calc(100vh_-_74px)]">
                 {/* Categories */}
                 <div className="mb-6">
                     <Categories
                         products={data}
-                        filteredProducts={searchedProducts}
+                        filteredProducts={finalProducts}
                         categories={categories}
                         setActiveCategory={setActiveCategory}
                         activeCategory={activeCategory}
@@ -51,16 +41,22 @@ function App() {
                 </div>
 
                 {isLoading && (
-                    <div className="min-h-screen text-center content-center">
-                        Loading Page ...
+                    <div className=" flex h-full justify-center items-center">
+                        Loading Products...
+                        <LoadingSpinner className="w-10 h-10" />
                     </div>
                 )}
 
-                {!isLoading && error && <div>Something went wrong</div>}
+                {!isLoading && error && (
+                    <ErrorState message={error} Retry={RetryFetching} />
+                )}
 
+                {!isLoading && !error && finalProducts.length === 0 && (
+                    <EmptyState searchQuery={searchQuery} />
+                )}
                 {/* Products */}
-                {!isLoading && !error && searchedProducts.length > 0 && (
-                    <ProductsGrid products={searchedProducts} />
+                {!isLoading && !error && finalProducts.length > 0 && (
+                    <ProductsGrid products={finalProducts} />
                 )}
             </main>
         </div>

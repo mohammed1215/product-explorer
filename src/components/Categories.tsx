@@ -1,5 +1,6 @@
 import type { Category } from "../App";
 import type { Product } from "../Hooks/useFetchData";
+import { Button } from "./Button";
 
 export const Categories = ({
     products,
@@ -31,9 +32,7 @@ export const Categories = ({
                 const isActive = category === activeCategory;
 
                 return (
-                    <button
-                        key={category}
-                        type="button"
+                    <Button
                         onClick={() => handleFilteringWithCategory(category)}
                         className={`shrink-0 cursor-pointer rounded-full border px-4 py-1.5 text-sm font-medium capitalize transition-colors ${
                             isActive
@@ -42,7 +41,7 @@ export const Categories = ({
                         }`}
                     >
                         {category}
-                    </button>
+                    </Button>
                 );
             })}
         </div>
